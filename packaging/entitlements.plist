@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hardened-runtime entitlements, required once the build is signed with a Developer ID.
+
+  Unused until then: packaging/build_mac.sh only passes this file when
+  ASOMEDECK_CODESIGN_IDENTITY is set, and an ad-hoc build neither needs nor honours it. It
+  exists now so that enrolling in the Developer Program is a credentials change rather than
+  a packaging change.
+
+  disable-library-validation is the one that is genuinely needed: the hardened runtime
+  otherwise refuses to load libraries not signed by the same team, and a PyInstaller bundle
+  is almost entirely Qt frameworks signed by the Qt Company.
+-->
+<plist version="1.0">
+<dict>
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
+</dict>
+</plist>

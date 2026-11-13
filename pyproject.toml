@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asomedeck"
+# Read from asomedeck.__version__ rather than written here. Two copies of a version
+# disagree eventually, and the way you find out is a bug report citing one that was never
+# released. tests/test_version.py pins that they still match.
+dynamic = ["version"]
+description = "A desktop shell that runs your terminals in one window, grouped by deck"
+requires-python = ">=3.13"
+dependencies = [
+    # Essentials, not the full PySide6. QtWebEngineWidgets and QtWebChannel were the only
+    # PySide6-Addons modules this app ever imported, and both went with xterm.js --
+    # which is 358 MB of the 632 MB that PySide6 installs. tests/test_import_boundary.py
+    # pins it, so the dependency cannot quietly grow back.
+    "PySide6-Essentials>=6.8,<7",
+    # No pseudo-console binding on either platform. term/windowspty.py calls ConPTY directly
+    # through winapi.py, with the host it starts in assets/conpty; term/unixpty.py drives a
+    # pty from the standard library.
+    #
+    # The VT parser and screen model. LGPL-3.0, like PySide6 above, and used the same way:
+    # as an ordinary importable library, so that stays a licence note rather than a
+    # constraint (THIRD-PARTY-NOTICES.md). term/emulator.py says what it does not give us:
+    # scrollback we can scroll, and an alternate screen at all.
+    "pyte>=0.8",
+]
+# pywin32 is gone with the docking backend. It was declared from the start and never
+# actually imported -- every Win32 call went through ctypes -- and what little Win32
+# remains (winapi.py, for the frameless window) still does.
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff",
+]
+# Only needed to produce dist/AsomeDeck.exe; nothing imports it.
+build = [
+    "pyinstaller>=6",
+]
+
+[project.scripts]
+asomedeck = "asomedeck.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "asomedeck.__version__"}
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
