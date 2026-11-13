@@ -21,7 +21,10 @@ Runs on Windows and macOS.
 It is a single file with no installer. It is not code-signed, so Windows SmartScreen may warn
 you the first time you run it.
 
-**macOS:** there is no download yet. [Build the app](#build) yourself.
+**macOS:** `AsomeDeck-<version>-macos-arm64.zip` from the same page, for Apple Silicon Macs
+on macOS 13 or later. Unzip it and drag the app to Applications. It is not notarized, so the
+first time you open it macOS says it cannot verify the app: open **System Settings → Privacy
+& Security** and click **Open Anyway**. On an Intel Mac, [build the app](#build) yourself.
 
 ## Run from source
 
