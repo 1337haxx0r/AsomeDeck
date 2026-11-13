@@ -11,7 +11,7 @@ can be named, each one knows its own number, and a plain-text board in the proje
 lets the agents claim what they are working on, so two of them do not edit the same file
 at once. See [Several agents in one project](#several-agents-in-one-project).
 
-<!-- screenshot: docs/screenshot.png -->
+![One deck with three named terminals: tests running pytest, lint running ruff in watch mode, and designer showing the pane list from .asomedeck/panes.md](docs/screenshot.png)
 
 Runs on Windows and macOS.
 
@@ -61,6 +61,8 @@ python3.13 -m venv .venv
   out.
 - **Command palette** (`Ctrl+Shift+K`) for commands, decks, terminals and files. Dark and
   light themes.
+
+![The Files sidebar with the source tree open, a terminal running the tests, and shells.py open in the editor beside it](docs/screenshot-files.png)
 
 Running terminals are not saved. A terminal ends when the app does, and the next start opens
 fresh shells in the same layout, in the same folders.
